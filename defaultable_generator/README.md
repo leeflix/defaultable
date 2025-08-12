@@ -1,11 +1,3 @@
-Here's a `README.md` for your `defaultable\_generator` package, formatted to match the style and content of the one you provided for `defaultable`.
-
-
-
------
-
-
-
 \# Defaultable Generator
 
 
