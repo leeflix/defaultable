@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:build/build.dart';
 import 'package:defaultable/defaultable.dart';
 import 'package:source_gen/source_gen.dart';
@@ -7,19 +8,19 @@ import 'package:source_gen/source_gen.dart';
 class InstanceGenerator extends GeneratorForAnnotation<DefaultableRegistry> {
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    final reachableLibs = <LibraryElement>{};
-    _findReachableLibraries(element.library!, reachableLibs);
+    final reachableLibs = <LibraryElement2>{};
+    _findReachableLibraries(element.library2!, reachableLibs);
 
     final defaultableClasses = <String>{};
     for (final lib in reachableLibs) {
-      for (final classElement in lib.units.expand((u) => u.classes)) {
-        if (TypeChecker.fromRuntime(Defaultable)
+      for (final classElement in lib.classes) {
+        if (TypeChecker.typeNamed(Defaultable)
             .hasAnnotationOf(classElement)) {
-          defaultableClasses.add(classElement.name);
+          defaultableClasses.add(classElement.name3!);
         }
       }
     }
@@ -50,12 +51,12 @@ class InstanceGenerator extends GeneratorForAnnotation<DefaultableRegistry> {
   }
 
   void _findReachableLibraries(
-      LibraryElement library, Set<LibraryElement> reachable) {
+      LibraryElement2 library, Set<LibraryElement2> reachable) {
     if (!reachable.add(library)) return;
-    for (final imported in library.importedLibraries) {
-      _findReachableLibraries(imported, reachable);
-    }
-    for (final exported in library.exportedLibraries) {
+    // for (final imported in library.importedLibraries) {
+    //   _findReachableLibraries(imported, reachable);
+    // }
+    for (final exported in library.exportedLibraries2) {
       _findReachableLibraries(exported, reachable);
     }
   }
