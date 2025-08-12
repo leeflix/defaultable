@@ -1,122 +1,85 @@
-\# Defaultable Generator
+# Defaultable Generator
 
+[![Pub Package](https://img.shields.io/pub/v/defaultable_generator.svg)](https://pub.dev/packages/defaultable_generator)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+**Defaultable Generator** is the build-time dependency that powers the `defaultable` package.
+It contains the code generation logic responsible for creating:
 
-\[](https://www.google.com/search?q=%5Bhttps://www.google.com/search%3Fq%3Dhttps://pub.dev/packages/defaultable\_generator%5D\\(https://www.google.com/search%3Fq%3Dhttps://pub.dev/packages/defaultable\_generator\\))
+* `.fromDefaults()` factory constructors
+* The global `getInstance()` factory for your data classes.
 
-\[](https://www.google.com/search?q=%5Bhttps://opensource.org/licenses/MIT%5D\\(https://opensource.org/licenses/MIT\\))
+This package is a **`dev_dependency`** — it is not used in your final application.
+It’s only required during development to generate Dart code.
 
+---
 
+## ⚙️ Installation
 
-\*\*Defaultable Generator\*\* is the build-time dependency that does the heavy lifting for the `defaultable` package. It contains the code generation logic, responsible for creating the `.fromDefaults()` factory constructors and the global `getInstance()` factory for your data classes.
-
-
-
-This package is a \*\*`dev\_dependency`\*\* and is not used in your final application. It is only required during development to generate the Dart code files.
-
-
-
------
-
-
-
-\## ⚙️ Installation
-
-
-
-To use `defaultable\_generator`, you need to add it and `build\_runner` to your `dev\_dependencies` in your `pubspec.yaml` file.
-
-
+Add `defaultable_generator` and `build_runner` to your **dev\_dependencies** in `pubspec.yaml`:
 
 ```yaml
-
-dev\_dependencies:
-
-&nbsp; build\_runner: ^2.4.0
-
-&nbsp; defaultable\_generator: ^0.1.0 # Or the latest version
-
+dev_dependencies:
+  build_runner: ^2.4.0
+  defaultable_generator: ^0.1.0 # Or the latest version
 ```
 
-
-
-You must also include the `defaultable` package in your regular dependencies.
-
-
+Also include the `defaultable` package in your regular **dependencies**:
 
 ```yaml
-
 dependencies:
-
-&nbsp; defaultable: ^0.1.0 # Or the latest version
-
+  defaultable: ^0.1.0 # Or the latest version
 ```
 
+---
 
+## 🚀 Usage
 
------
+You normally interact with this package via the `dart run build_runner build` command —
+you do not call its classes or functions directly.
 
+The generator reacts to two annotations from the `defaultable` package:
 
+1. **`@Defaultable()`**
+   Placed on a class to generate:
 
-\## 🚀 Usage
+    * `_$ClassNameFromDefaults()` function
+    * `*.defaultable.g.dart` part file
 
+2. **`@defaultableRegistry`**
+   Placed on a top-level element (like a class or constant) to generate:
 
+    * A global `getInstance()` factory in the corresponding part file
 
-This package is designed to be used via the `dart run build\_runner build` command. You do not need to interact with its classes or functions directly.
-
-
-
-The generator looks for two key annotations provided by the `defaultable` package:
-
-
-
-1\.  \*\*`@Defaultable()`\*\*: This annotation on a class triggers the generator to create the `\_$classNameFromDefaults()` function and the `\*.defaultable.g.dart` part file.
-
-
-
-2\.  \*\*`@defaultableRegistry`\*\*: This annotation on a top-level element (like a class or a constant) triggers the generator to create a global `getInstance()` factory in the corresponding part file.
-
-
-
-After setting up your classes with these annotations, you simply run the following command in your terminal from the root of your project:
-
-
+After adding these annotations, run:
 
 ```bash
-
-dart run build\_runner build --delete-conflicting-outputs
-
+dart run build_runner build --delete-conflicting-outputs
 ```
 
+The generator will scan your project, find annotated classes, and produce the `.g.dart` files automatically.
 
+---
 
-The generator will automatically scan your project, find the annotated classes, and produce the necessary `.g.dart` files.
+## 🚧 Configuration
 
+`defaultable_generator` works out-of-the-box for most projects.
+If needed, you can configure its behavior via a `build.yaml` file in your project root.
 
+For example, you might:
 
------
+* Change output paths
+* Adjust generation options
 
+See the [`build_runner` documentation](https://pub.dev/packages/build_runner) for advanced configuration details.
 
+---
 
-\## 🚧 Configuration
+## 🐛 Issues and Contributions
 
+Please report bugs, request features, or contribute on the
+[GitHub Issue Tracker](https://github.com/leeflix/defaultable/issues).
 
+---
 
-While `defaultable\_generator` works out-of-the-box for most use cases, you can configure its behavior via a `build.yaml` file in the root of your project.
-
-
-
-For example, you can adjust the output path or other options. Refer to the `build\_runner` documentation for more details on advanced configuration.
-
-
-
------
-
-
-
-\## 🐛 Issues and Contributions
-
-
-
-Please file any issues, bugs, or feature requests on the \[GitHub issue tracker](https://github.com/leeflix/defaultable/issues).
-
+Do you want me to also **add an example section** showing a minimal `@Defaultable()` class and its generated output? That could make the README more approachable.
