@@ -1,6 +1,6 @@
 name: defaultable_generator
 description: The generator for the defaultable package.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/leeflix/defaultable
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
 
   build: ^3.0.0
   source_gen: ^3.0.0
-  analyzer: 7.4.0
+  analyzer: ^7.4.0
   recase: ^4.1.0
 
 dev_dependencies:
