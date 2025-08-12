@@ -8,19 +8,19 @@ import 'package:source_gen/source_gen.dart';
 class InstanceGenerator extends GeneratorForAnnotation<DefaultableRegistry> {
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element2 element,
+    Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    final reachableLibs = <LibraryElement2>{};
-    _findReachableLibraries(element.library2!, reachableLibs);
+    final reachableLibs = <LibraryElement>{};
+    _findReachableLibraries(element.library!, reachableLibs);
 
     final defaultableClasses = <String>{};
     for (final lib in reachableLibs) {
       for (final classElement in lib.classes) {
         if (TypeChecker.typeNamed(Defaultable)
             .hasAnnotationOf(classElement)) {
-          defaultableClasses.add(classElement.name3!);
+          defaultableClasses.add(classElement.name!);
         }
       }
     }
@@ -51,12 +51,12 @@ class InstanceGenerator extends GeneratorForAnnotation<DefaultableRegistry> {
   }
 
   void _findReachableLibraries(
-      LibraryElement2 library, Set<LibraryElement2> reachable) {
+      LibraryElement library, Set<LibraryElement> reachable) {
     if (!reachable.add(library)) return;
     // for (final imported in library.importedLibraries) {
     //   _findReachableLibraries(imported, reachable);
     // }
-    for (final exported in library.exportedLibraries2) {
+    for (final exported in library.exportedLibraries) {
       _findReachableLibraries(exported, reachable);
     }
   }
