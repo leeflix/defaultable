@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:analyzer/dart/element/element.dart';
+
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:build/build.dart';
 import 'package:defaultable/defaultable.dart';
@@ -16,10 +16,11 @@ class InstanceGenerator extends GeneratorForAnnotation<DefaultableRegistry> {
     _findReachableLibraries(element.library2!, reachableLibs);
 
     final defaultableClasses = <String>{};
+    print(reachableLibs);
     for (final lib in reachableLibs) {
       for (final classElement in lib.classes) {
-        if (TypeChecker.typeNamed(Defaultable)
-            .hasAnnotationOf(classElement)) {
+
+        if (TypeChecker.fromRuntime(Defaultable).hasAnnotationOf(classElement)) {
           defaultableClasses.add(classElement.name3!);
         }
       }
@@ -35,8 +36,7 @@ class InstanceGenerator extends GeneratorForAnnotation<DefaultableRegistry> {
     buffer.writeln('T getInstance<T extends Defaultable>() {');
     buffer.writeln('  final instanceFactory = _instanceFactories[T];');
     buffer.writeln('  if (instanceFactory == null) {');
-    buffer.writeln(
-        '    throw Exception("No default instance factory found for type \$T");');
+    buffer.writeln('    throw Exception("No default instance factory found for type \$T");');
     buffer.writeln('  }');
     buffer.writeln('  return instanceFactory() as T;');
     buffer.writeln('}');
@@ -50,12 +50,11 @@ class InstanceGenerator extends GeneratorForAnnotation<DefaultableRegistry> {
     return buffer.toString();
   }
 
-  void _findReachableLibraries(
-      LibraryElement2 library, Set<LibraryElement2> reachable) {
+  void _findReachableLibraries(LibraryElement2 library, Set<LibraryElement2> reachable) {
     if (!reachable.add(library)) return;
-    // for (final imported in library.importedLibraries) {
-    //   _findReachableLibraries(imported, reachable);
-    // }
+    for (final imported in library.fragments.map((f) => f.importedLibraries2).expand((x) => x)) {
+      _findReachableLibraries(imported, reachable);
+    }
     for (final exported in library.exportedLibraries2) {
       _findReachableLibraries(exported, reachable);
     }

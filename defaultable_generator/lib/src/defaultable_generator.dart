@@ -83,7 +83,7 @@ class DefaultableGenerator extends GeneratorForAnnotation<Defaultable> {
 
     // Logic for other defaultable classes
     if (typeElement is ClassElement2) {
-      if (TypeChecker.typeNamed(Defaultable).isAssignableFrom(typeElement)) {
+      if (TypeChecker.fromRuntime(Defaultable).isAssignableFrom(typeElement)) {
         return '${typeElement.name3}.fromDefaults()';
       }
     }

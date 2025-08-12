@@ -10,5 +10,4 @@ part 'defaults.g.dart';
 
 // This annotation triggers the InstanceGenerator
 @defaultableRegistry
-// ignore: unused_element
 class _ {} // The annotation can be on any top-level element

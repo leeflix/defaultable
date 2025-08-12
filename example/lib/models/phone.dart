@@ -4,7 +4,7 @@ import 'phone_type.dart';
 part 'phone.defaultable.g.dart';
 
 @Defaultable()
-class Phone implements Defaultable {
+class Phone extends Defaultable {
   final String number;
   final PhoneType type;
 
