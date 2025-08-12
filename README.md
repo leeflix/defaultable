@@ -1,27 +1,27 @@
-````markdown
-# Defaultable
+# Defaultable 팩
 
-[![pub version](https://img.shields.io/pub/v/defaultable.svg)](https://pub.dev/packages/defaultable)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[](https://www.google.com/search?q=https://pub.dev/packages/defaultable)
+[](https://opensource.org/licenses/MIT)
 
 Tired of writing boilerplate code to create default or fallback instances of your data classes? **Defaultable** is a code generator that creates a static `.default()` method for you, filled with sensible default values.
 
 This repository is a monorepo containing:
-* `packages/defaultable`: The core API package with the `@Defaultable` annotation.
-* `packages/defaultable_generator`: The code generator that builds the `.default()` methods.
-* `example`: A sample application demonstrating usage.
+
+  * `packages/defaultable`: The core API package with the `@Defaultable` annotation.
+  * `packages/defaultable_generator`: The code generator that builds the `.default()` methods.
+  * `example`: A sample application demonstrating usage.
 
 ## ✨ Features
 
-* **Zero Boilerplate**: Annotate your class and let the generator do the work.
-* **Sensible Defaults**: Automatically populates fields with default values (`42`, `true`, `[]`, `null`, etc.).
-* **Nested Objects**: Recursively calls `.default()` on fields that are also `Defaultable`.
-* **Customizable**: Easily provide default implementations for third-party types using extensions.
-* **Null-Safe**: Correctly handles nullable and non-nullable types.
+  * **Zero Boilerplate**: Annotate your class and let the generator do the work.
+  * **Sensible Defaults**: Automatically populates fields with default values (`42`, `true`, `[]`, `null`, etc.).
+  * **Nested Objects**: Recursively calls `.default()` on fields that are also `Defaultable`.
+  * **Customizable**: Easily provide default implementations for third-party types using extensions.
+  * **Null-Safe**: Correctly handles nullable and non-nullable types.
 
 ## ⚙️ Getting Started
 
-### 1. Installation
+### 1\. Installation
 
 Add the necessary dependencies to your `pubspec.yaml`.
 
@@ -32,7 +32,7 @@ dependencies:
 dev_dependencies:
   build_runner: ^2.4.0
   defaultable_generator: ^0.1.0 # Use the latest version
-````
+```
 
 ### 2\. Usage
 
@@ -114,7 +114,3 @@ extension DefaultUuidValue on UuidValue {
 Please file any issues, bugs, or feature requests on the [GitHub issue tracker](https://www.google.com/search?q=https://github.com/your_username/defaultable/issues).
 
 Contributions are welcome\! Fork the repository and submit a pull request.
-
-```
-**Remember to replace `your_username` in the issue tracker link with your actual GitHub username.**
-```
