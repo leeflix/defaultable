@@ -1,9 +1,14 @@
+import 'defaults.dart'; // Import the new defaults file
 import 'models/user.dart';
 
 void main() {
-  // UPDATED: Call the cleaner `User.default()` method.
-  final defaultUser = User.default();
+  print('--- Testing getInstance() ---');
 
-  print('Generated Default User:');
-  print(defaultUser);
+  // Call the global function generated in `defaults.g.dart`
+  final userFromInstance = getInstance<User>();
+  print('Fetched User via getInstance(): $userFromInstance');
+
+  // Creating another proves it's a factory
+  final anotherUser = getInstance<User>();
+  print('Is second user the same instance? ${identical(userFromInstance, anotherUser)}');
 }

@@ -1,20 +1,16 @@
 name: example
 description: An example application for the defaultable package.
 version: 1.0.0
-publish_to: none
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  # The API package
-  defaultable:
-    path: ../defaultable
+  defaultable: ^1.0.0
 
 dev_dependencies:
   # The generator packages
   build_runner: ^2.4.11
-  defaultable_generator:
-    path: ../defaultable_generator
+  defaultable_generator: ^1.0.0
 
   lints: ^3.0.0

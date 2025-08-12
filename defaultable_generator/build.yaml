@@ -1,8 +1,18 @@
 builders:
+  # Builder for the '.defaultable.g.dart' files
   defaultable:
     import: "package:defaultable_generator/builder.dart"
     builder_factories: ["defaultableBuilder"]
     build_extensions: {".dart": [".defaultable.g.dart"]}
     auto_apply: dependents
-    build_to: cache
-    applies_builders: ["source_gen|combining_builder"]
+    build_to: source
+    applies_builders: ["source_gen|part_creator"]
+
+  # Builder for the registry file (`.g.dart`)
+  defaultable_registry:
+    import: "package:defaultable_generator/builder.dart"
+    builder_factories: ["instanceBuilder"]
+    build_extensions: {".dart": [".g.dart"]}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|part_creator"]

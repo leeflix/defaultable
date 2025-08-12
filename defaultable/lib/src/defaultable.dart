@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 /// Use as an annotation `@Defaultable()` on your class,
 /// and then implement it: `class MyClass implements Defaultable`.
 @immutable
-abstract class Defaultable {
+class Defaultable {
   /// The const constructor allows this class to be used as an annotation.
   const Defaultable();
 }
