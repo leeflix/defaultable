@@ -8,10 +8,10 @@ import 'package:source_gen/source_gen.dart';
 class DefaultableGenerator extends GeneratorForAnnotation<Defaultable> {
   @override
   String generateForAnnotatedElement(
-    Element2 element,
-    ConstantReader annotation,
-    BuildStep buildStep,
-  ) {
+      Element2 element,
+      ConstantReader annotation,
+      BuildStep buildStep,
+      ) {
     if (element is! ClassElement2) {
       throw InvalidGenerationSourceError(
         '`@Defaultable()` can only be used on classes.',
@@ -19,13 +19,18 @@ class DefaultableGenerator extends GeneratorForAnnotation<Defaultable> {
       );
     }
 
-    final className = element.name3!;
-    final functionName = '_\$${ReCase(className).camelCase}FromDefaults';
     final constructor = _findViableConstructor(element);
     final buffer = StringBuffer();
 
-    buffer.writeln('$className $functionName() {');
-    buffer.writeln('  return $className(');
+    final className = element.name3!;
+    final genericParamsWithBounds = _genericParametersAsString(element, withBounds: true);
+    final genericParamsWithoutBounds = _genericParametersAsString(element, withBounds: false);
+    final functionName = '_\$${ReCase(className).camelCase}FromDefaults';
+
+    // Return type: className<T> without bounds
+    // Function generic parameters: <T extends Model<T>> with bounds
+    buffer.writeln('$className$genericParamsWithoutBounds $functionName$genericParamsWithBounds() {');
+    buffer.writeln('  return $className$genericParamsWithoutBounds(');
 
     for (final param in constructor.formalParameters) {
       final value = _getDefaultValueForParameter(param);
@@ -43,10 +48,9 @@ class DefaultableGenerator extends GeneratorForAnnotation<Defaultable> {
     return buffer.toString();
   }
 
-  // ... _findViableConstructor method is unchanged ...
   ConstructorElement2 _findViableConstructor(ClassElement2 classElement) {
     return classElement.constructors2.firstWhere(
-      (c) => !c.isFactory && c.isPublic,
+          (c) => c.isPublic,
       orElse: () => throw InvalidGenerationSourceError(
         'No public, non-factory constructor found for `${classElement.name3}`.',
         element: classElement,
@@ -68,7 +72,7 @@ class DefaultableGenerator extends GeneratorForAnnotation<Defaultable> {
     if (type.isDartCoreSet) return 'const {}';
     if (type.isDartCoreMap) return 'const {}';
 
-    // This is the updated, more robust way to check for DateTime
+    // DateTime check
     if (type.element?.library?.isDartCore == false && type.element?.name == 'DateTime') {
       return "DateTime.utc(1970, 1, 1)";
     }
@@ -81,11 +85,12 @@ class DefaultableGenerator extends GeneratorForAnnotation<Defaultable> {
       return '${typeElement.name3}.${firstValue.name3}';
     }
 
-    // Logic for other defaultable classes
+    // Other Defaultable classes
     if (typeElement is ClassElement2) {
-      if (TypeChecker.fromRuntime(Defaultable).isAssignableFrom(typeElement)) {
-        return '${typeElement.name3}.fromDefaults()';
-      }
+      // Uncomment if you want to check for @Defaultable annotation
+      // if (TypeChecker.fromRuntime(Defaultable).isAssignableFrom(typeElement)) {
+      return '${typeElement.name3}.fromDefaults()';
+      // }
     }
 
     throw InvalidGenerationSourceError(
@@ -94,5 +99,20 @@ class DefaultableGenerator extends GeneratorForAnnotation<Defaultable> {
           'implement `Defaultable`.',
       element: param,
     );
+  }
+
+  String _genericParametersAsString(ClassElement2 element, {bool withBounds = true}) {
+    if (element.typeParameters2.isEmpty) return '';
+    final buffer = StringBuffer('<');
+    for (var i = 0; i < element.typeParameters2.length; i++) {
+      final param = element.typeParameters2[i];
+      buffer.write(param.name3);
+      if (withBounds && param.bound != null) {
+        buffer.write(' extends ${param.bound!.getDisplayString(withNullability: false)}');
+      }
+      if (i < element.typeParameters2.length - 1) buffer.write(', ');
+    }
+    buffer.write('>');
+    return buffer.toString();
   }
 }

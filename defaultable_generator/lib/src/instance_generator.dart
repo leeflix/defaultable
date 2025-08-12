@@ -16,7 +16,7 @@ class InstanceGenerator extends GeneratorForAnnotation<DefaultableRegistry> {
     _findReachableLibraries(element.library2!, reachableLibs);
 
     final defaultableClasses = <String>{};
-    print(reachableLibs);
+
     for (final lib in reachableLibs) {
       for (final classElement in lib.classes) {
 
@@ -33,7 +33,7 @@ class InstanceGenerator extends GeneratorForAnnotation<DefaultableRegistry> {
     final buffer = StringBuffer();
     buffer.writeln('// ignore_for_file: type_literal_in_constant_pattern');
     buffer.writeln();
-    buffer.writeln('T getInstance<T extends Defaultable>() {');
+    buffer.writeln('T getInstance<T>() {');
     buffer.writeln('  final instanceFactory = _instanceFactories[T];');
     buffer.writeln('  if (instanceFactory == null) {');
     buffer.writeln('    throw Exception("No default instance factory found for type \$T");');
