@@ -11,8 +11,5 @@ dependencies:
 
   build: ^3.0.0
   source_gen: ^3.0.0
-  analyzer: ^8.1.1
+  analyzer: ^7.5.9
   recase: ^4.1.0
-
-dev_dependencies:
-  test: ^1.24.0
