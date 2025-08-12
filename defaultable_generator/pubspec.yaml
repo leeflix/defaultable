@@ -1,0 +1,16 @@
+name: defaultable_generator
+description: The generator for the defaultable package.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  # Use a path dependency to link to the local API package
+  defaultable:
+    path: ../defaultable
+
+  build: ^2.4.1
+  source_gen: ^1.5.0
+  analyzer: '>=6.0.0 <7.0.0'
